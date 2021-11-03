@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GoogleDrive {
 
-    private static final String APPLICATION_NAME = "My project";  //TODO - primeniti ime projekta
+    private static final String APPLICATION_NAME = "SK01GD-API";  //TODO - primeniti ime projekta
     private static final JacksonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static HttpTransport HTTP_TRANSPORT;
     private static final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE);
