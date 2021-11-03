@@ -83,4 +83,23 @@ public class GoogleDrive {
         return list;
     }
 
+    public static File getFileByParent(String parentName, String name) {
+        File parent = getFile(parentName);
+        String query = "name=" + "'" + name + "'";
+        FileList list = null;
+        try {
+            list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (File file: list.getFiles()) {
+            if (file.getParents().get(0).equals(parent.getId())) {
+                return file;
+            }
+        }
+
+        return null;
+    }
+
 }

@@ -1,18 +1,24 @@
 package com.driveimpl;
 
+import com.google.api.client.http.AbstractInputStreamContent;
+import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.gson.Gson;
+import com.utils.StorageInfo;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Testing {
 
-    // /
     public static void main(String[] args) throws IOException {
         /**
          * NALAZENJE FAJLA
         **/
-//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='test.json'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='MyStorage/config.json'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
 //        for (File file: list.getFiles()) {
 //            System.out.println(file.getName() + " " + file.getMimeType());
 //        }
@@ -40,21 +46,22 @@ public class Testing {
         /**
          * UPLOAD FAJLA
          **/
-//        java.io.File uploadFile = new java.io.File("/Users/lazardejanovic/Downloads/test.json");
-//        AbstractInputStreamContent uploadStreamContent = new FileContent(null, uploadFile);
-//
-//        File fileMetadata = new File();
-//        fileMetadata.setName("test.json");
-//        fileMetadata.setParents(null);
-//
-//        Drive driveService = com.driveimpl.GoogleDrive.service;
-//        driveService.files().create(fileMetadata, uploadStreamContent).setFields("id, webContentLink, webViewLink, parents").execute();
+        java.io.File uploadFile = new java.io.File("/Users/lazardejanovic/Downloads/proba.txt");
+        AbstractInputStreamContent uploadStreamContent = new FileContent(null, uploadFile);
+        File parent = GoogleDrive.getFile("TEST");
+
+        File fileMetadata = new File();
+        fileMetadata.setName("proba.txt");
+        fileMetadata.setParents(Arrays.asList(parent.getId()));
+
+        GoogleDrive.service.files().create(fileMetadata, uploadStreamContent).setFields("id, webContentLink, webViewLink, parents").execute();
 
 
         /**
          * DOWNLOAD FAJLA
          **/
-//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='TEST'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='TEST'")
+//                .setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
 //        String fileID = null;
 //        for (File file: list.getFiles()) {
 //            fileID = file.getId();
@@ -68,14 +75,39 @@ public class Testing {
 //        outputstream.flush();
 //        outputstream.close();
 
-        FileList list = GoogleDrive.service.files().list().setQ("name='komponente.txt'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
-        String fileID = null;
-        for (File file: list.getFiles()) {
 
-            fileID = file.getId();
-            System.out.println(file.getName() + " " + file.getMimeType());
-        }
+        /**
+         * BRISANJE FAJLA
+         **/
+//        FileList list = GoogleDrive.service.files().list().setQ("name='komponente.txt'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+//        String fileID = null;
+//        for (File file: list.getFiles()) {
+//
+//            fileID = file.getId();
+//            System.out.println(file.getName() + " " + file.getMimeType());
+//        }
+//
+//        GoogleDrive.service.files().delete(fileID).execute();
 
-        GoogleDrive.service.files().delete(fileID).execute();
+
+
+
+//        Map<String, Object> configMap = new HashMap<>();
+//        configMap.put("path", "Skladiste");
+//        configMap.put("admin", "admin");
+//        configMap.put("maxSize", 20);
+//        configMap.put("maxNumOfFiles", 20);
+//        configMap.put("unsupportedFiles", null);
+//
+//        java.io.File config = new java.io.File("config.json");
+//        try {
+//            Writer writer = new FileWriter(config);
+//            new Gson().toJson(configMap, writer);
+//            writer.close();
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        config.delete();
     }
 }
