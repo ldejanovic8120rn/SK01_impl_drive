@@ -18,10 +18,12 @@ public class Testing {
         /**
          * NALAZENJE FAJLA
         **/
-//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='MyStorage/config.json'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
-//        for (File file: list.getFiles()) {
-//            System.out.println(file.getName() + " " + file.getMimeType());
-//        }
+        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name=''").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+        for (File file: list.getFiles()) {
+            System.out.println("USO");
+            System.out.println(file.getName() + " " + file.getMimeType());
+        }
+        System.out.println(list);
 
 
         /**
@@ -46,15 +48,15 @@ public class Testing {
         /**
          * UPLOAD FAJLA
          **/
-        java.io.File uploadFile = new java.io.File("/Users/lazardejanovic/Downloads/proba.txt");
-        AbstractInputStreamContent uploadStreamContent = new FileContent(null, uploadFile);
-        File parent = GoogleDrive.getFile("TEST");
-
-        File fileMetadata = new File();
-        fileMetadata.setName("proba.txt");
-        fileMetadata.setParents(Arrays.asList(parent.getId()));
-
-        GoogleDrive.service.files().create(fileMetadata, uploadStreamContent).setFields("id, webContentLink, webViewLink, parents").execute();
+//        java.io.File uploadFile = new java.io.File("/Users/lazardejanovic/Downloads/proba.txt");
+//        AbstractInputStreamContent uploadStreamContent = new FileContent(null, uploadFile);
+//        File parent = GoogleDrive.getFile("TEST");
+//
+//        File fileMetadata = new File();
+//        fileMetadata.setName("proba.txt");
+//        fileMetadata.setParents(Arrays.asList(parent.getId()));
+//
+//        GoogleDrive.service.files().create(fileMetadata, uploadStreamContent).setFields("id, webContentLink, webViewLink, parents").execute();
 
 
         /**
