@@ -18,12 +18,17 @@ public class Testing {
         /**
          * NALAZENJE FAJLA
         **/
-        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name=''").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
-        for (File file: list.getFiles()) {
-            System.out.println("USO");
-            System.out.println(file.getName() + " " + file.getMimeType());
-        }
-        System.out.println(list);
+//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='MyStorage'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+//        for (File file: list.getFiles()) {
+//            String query = "parents=" + "'" + file.getId() + "'";
+//            FileList list1 = com.driveimpl.GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+//
+//            for (File file1: list1.getFiles()) {
+//                System.out.println(file1.getName());
+//            }
+//
+//            break;
+//        }
 
 
         /**
@@ -81,10 +86,9 @@ public class Testing {
         /**
          * BRISANJE FAJLA
          **/
-//        FileList list = GoogleDrive.service.files().list().setQ("name='komponente.txt'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+//        FileList list = GoogleDrive.service.files().list().setQ("name='FolderZaBrisanje'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
 //        String fileID = null;
 //        for (File file: list.getFiles()) {
-//
 //            fileID = file.getId();
 //            System.out.println(file.getName() + " " + file.getMimeType());
 //        }
