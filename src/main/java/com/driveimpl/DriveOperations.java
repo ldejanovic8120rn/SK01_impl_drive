@@ -1,3 +1,5 @@
+package com.driveimpl;
+
 import com.storage.Operations;
 import com.utils.FileMetadata;
 
@@ -32,6 +34,6 @@ public class DriveOperations extends Operations {
 
     @Override
     public void moveFile(String fromPath, String toPath) throws Exception {
-
+        // TODO - brisanje trenutnog roditelja i dodavanje novog roditelja
     }
 }
