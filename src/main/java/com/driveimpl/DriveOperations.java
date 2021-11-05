@@ -31,7 +31,7 @@ public class DriveOperations extends Operations {
             throw new Exception("Ne postoji zadata putanja u skladistu");
         }
 
-        File dir = GoogleDrive.getFile(name);
+        File dir = GoogleDrive.getRootFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
@@ -58,7 +58,7 @@ public class DriveOperations extends Operations {
             throw new Exception("Ne postoji zadata putanja u skladistu");
         }
 
-        File dir = GoogleDrive.getFile(name);
+        File dir = GoogleDrive.getRootFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
@@ -85,7 +85,7 @@ public class DriveOperations extends Operations {
             throw new Exception("Ne postoji zadata putanja u skladistu");
         }
 
-        File dir = GoogleDrive.getFile(name);
+        File dir = GoogleDrive.getRootFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
@@ -117,7 +117,7 @@ public class DriveOperations extends Operations {
             throw new Exception("Ne postoji zadata putanja u skladistu");
         }
 
-        File driveFile = GoogleDrive.getFile(name);
+        File driveFile = GoogleDrive.getRootFile(name);
         java.io.File file = new java.io.File(driveFile.getName());
         OutputStream outputstream = new FileOutputStream(file);
         com.driveimpl.GoogleDrive.service.files().get(driveFile.getId()).executeMediaAndDownloadTo(outputstream);
@@ -131,7 +131,7 @@ public class DriveOperations extends Operations {
 
         toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;
         String parentName = toPath.split("/")[fromPath.split("/").length - 1];
-        File parent = GoogleDrive.getFile(parentName);
+        File parent = GoogleDrive.getRootFile(parentName);
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD)) {
             throw new Exception("Korisnik nije logovan ili nema privilegiju");
@@ -188,8 +188,8 @@ public class DriveOperations extends Operations {
             throw new Exception("Ne postoji zadata putanja u skladistu za - toPath");
         }
 
-        File file = GoogleDrive.getFile(fileName);
-        File dir = GoogleDrive.getFile(dirName);
+        File file = GoogleDrive.getRootFile(fileName);
+        File dir = GoogleDrive.getRootFile(dirName);
 
         StringBuilder previousParents = new StringBuilder();
         for (String parent : file.getParents()) {

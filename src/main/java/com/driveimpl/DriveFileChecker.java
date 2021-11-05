@@ -28,7 +28,7 @@ public class DriveFileChecker extends FileChecker {
     @Override
     public boolean ckeckStoragePath(String path) {
         String[] files = path.split("/");
-        File root = GoogleDrive.getFile(files[0]);
+        File root = GoogleDrive.getRootFile(files[0]);
 
         for (int i = 1; i < files.length; i++) {
             String query = "name='" + files[i] + "'";
@@ -85,7 +85,7 @@ public class DriveFileChecker extends FileChecker {
             return true;
         }
 
-        File root = GoogleDrive.getFile(StorageInfo.getStorageInfo().getConfig().getPath());
+        File root = GoogleDrive.getRootFile(StorageInfo.getStorageInfo().getConfig().getPath());
         return root.getSize() + size <= Long.parseLong(StorageInfo.getStorageInfo().getConfig().getMaxSize());
     }
 
@@ -95,7 +95,7 @@ public class DriveFileChecker extends FileChecker {
     }
 
     private int countFiles(String name, int counter) throws Exception {
-        File root = GoogleDrive.getFile(name);
+        File root = GoogleDrive.getRootFile(name);
         String query = "parents='" + root.getId() + "'";
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, size, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 

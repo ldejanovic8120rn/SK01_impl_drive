@@ -14,7 +14,7 @@ public class DriveCreate extends Create {
 
         String name = directoryName.split("/")[directoryName.split("/").length - 1];
         String parentName = directoryName.split("/")[directoryName.split("/").length - 2];
-        File parent = GoogleDrive.getFile(parentName);
+        File parent = GoogleDrive.getRootFile(parentName);
 
         File fileMetadata = new File();
 
@@ -31,7 +31,7 @@ public class DriveCreate extends Create {
 
         String name = fileName.split("/")[fileName.split("/").length - 1];
         String parentName = fileName.split("/")[fileName.split("/").length - 2];
-        File parent = GoogleDrive.getFile(parentName);
+        File parent = GoogleDrive.getRootFile(parentName);
 
         File fileMetadata = new File();
 

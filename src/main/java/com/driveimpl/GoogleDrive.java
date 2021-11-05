@@ -55,7 +55,7 @@ public class GoogleDrive {
         return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
     }
 
-    public static File getFile(String name) {
+    public static File getRootFile(String name) {
         String query = "name=" + "'" + name + "'";
         FileList list = null;
         try {
@@ -73,7 +73,7 @@ public class GoogleDrive {
     }
 
     public static File getFileByParent(String parentName, String name) {
-        File parent = getFile(parentName);
+        File parent = getRootFile(parentName);
         String query = "name=" + "'" + name + "'";
         FileList list = null;
         try {
@@ -89,6 +89,42 @@ public class GoogleDrive {
         }
 
         return null;
+    }
+
+    public static File getFile(String path) {
+        String[] files = path.split("/");
+        File root = GoogleDrive.getRootFile(files[0]);
+
+        for (int i = 1; i < files.length; i++) {
+            String query = "name='" + files[i] + "'";
+            FileList list = null;
+            try {
+                list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, size, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (list == null) {
+                return null;
+            }
+
+            File child = null;
+            for (File file: list.getFiles()) {
+                if (file.getParents().get(0).equals(root.getId())) {
+                    child = file;
+                    break;
+                }
+            }
+
+            if (child == null) {
+                return null;
+            }
+
+            root = child;
+        }
+
+        return root;
     }
 
 }

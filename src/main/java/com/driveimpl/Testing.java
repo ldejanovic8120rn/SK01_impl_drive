@@ -1,16 +1,8 @@
 package com.driveimpl;
 
-import com.google.api.client.http.AbstractInputStreamContent;
-import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.FileList;
-import com.google.gson.Gson;
-import com.utils.StorageInfo;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Testing {
 
@@ -96,14 +88,14 @@ public class Testing {
         /**
          * BRISANJE FAJLA
          **/
-        FileList list = GoogleDrive.service.files().list().setQ("name='ovajsigurnonepostoji'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
-        String fileID = null;
-        for (File file: list.getFiles()) {
-            fileID = file.getId();
-            System.out.println(file.getName() + " " + file.getMimeType());
-        }
-
-        GoogleDrive.service.files().delete(fileID).execute();
+//        FileList list = GoogleDrive.service.files().list().setQ("name='ovajsigurnonepostoji'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+//        String fileID = null;
+//        for (File file: list.getFiles()) {
+//            fileID = file.getId();
+//            System.out.println(file.getName() + " " + file.getMimeType());
+//        }
+//
+//        GoogleDrive.service.files().delete(fileID).execute();
 
 
 
@@ -125,5 +117,9 @@ public class Testing {
 //            e.printStackTrace();
 //        }
 //        config.delete();
+
+
+        File file = GoogleDrive.getFile("MyStorage/dir2/config.json");
+        System.out.println("PARENT - " + file.getParents());
     }
 }

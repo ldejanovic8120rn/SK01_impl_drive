@@ -39,7 +39,7 @@ public class DriveDelete extends Delete {
 
     @Override
     public void deleteAll(String rootPath) throws Exception {
-        File root = GoogleDrive.getFile(rootPath);
+        File root = GoogleDrive.getRootFile(rootPath);
         String query = "parents=" + "'" + root.getId() + "'";
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 

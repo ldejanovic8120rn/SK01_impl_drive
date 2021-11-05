@@ -18,8 +18,7 @@ public class DriveStorage extends Storage {
 
     @Override
     public java.io.File getConfig(String path) throws Exception {
-        String parentName = path.split("/")[path.split("/").length - 1];
-        File file = GoogleDrive.getFileByParent(parentName, "config.json");
+        File file = GoogleDrive.getFile(path + "/config.json");
         String fileID = file.getId();
 
         java.io.File config = new java.io.File("config.json");
@@ -33,8 +32,7 @@ public class DriveStorage extends Storage {
 
     @Override
     public java.io.File getUsers(String path) throws Exception {
-        String parentName = path.split("/")[path.split("/").length - 1];
-        File file = GoogleDrive.getFileByParent(parentName, "users.json");
+        File file = GoogleDrive.getFile(path + "/users.json");
         String fileID = file.getId();
 
         java.io.File users = new java.io.File("users.json");
@@ -52,9 +50,7 @@ public class DriveStorage extends Storage {
             throw new Exception("Da bi se kreiralo skladiste, korisnik mora biti izlogovan");
         }
 
-        String parentName = path.split("/")[path.split("/").length - 1];
-        File parent = GoogleDrive.getFile(parentName);
-
+        File parent = GoogleDrive.getFile(path);
         File fileMetadata = new File();
 
         fileMetadata.setName(storageName);
@@ -92,7 +88,7 @@ public class DriveStorage extends Storage {
             e.printStackTrace();
         }
 
-        File configDrive = GoogleDrive.getFileByParent(storageName, "config.json");
+        File configDrive = GoogleDrive.getFile(storageName + "/config.json");
         GoogleDrive.service.files().delete(configDrive.getId());
         createSettings(config, storageName);
         config.delete();
@@ -116,7 +112,7 @@ public class DriveStorage extends Storage {
             e.printStackTrace();
         }
 
-        File usersDrive = GoogleDrive.getFileByParent(storageName, "users.json");
+        File usersDrive = GoogleDrive.getFile(storageName + "/users.json");
         GoogleDrive.service.files().delete(usersDrive.getId());
         createSettings(users, storageName);
         users.delete();
@@ -158,7 +154,7 @@ public class DriveStorage extends Storage {
 
     private void createSettings(java.io.File settings, String storageName) {
         AbstractInputStreamContent uploadStreamContent = new FileContent(null, settings);
-        File parent = GoogleDrive.getFile(storageName);
+        File parent = GoogleDrive.getRootFile(storageName);
 
         File fileMetadata = new File();
         fileMetadata.setName(settings.getName());
