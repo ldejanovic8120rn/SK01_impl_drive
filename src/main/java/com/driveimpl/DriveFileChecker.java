@@ -27,39 +27,7 @@ public class DriveFileChecker extends FileChecker {
 
     @Override
     public boolean ckeckStoragePath(String path) {
-        String[] files = path.split("/");
-        File root = GoogleDrive.getRootFile(files[0]);
-
-        for (int i = 1; i < files.length; i++) {
-            String query = "name='" + files[i] + "'";
-            FileList list = null;
-            try {
-                list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, size, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (list == null) {
-                return false;
-            }
-
-            File child = null;
-            for (File file: list.getFiles()) {
-                if (file.getParents().get(0).equals(root.getId())) {
-                    child = file;
-                    break;
-                }
-            }
-
-            if (child == null) {
-                return false;
-            }
-
-            root = child;
-        }
-
-        return true;
+        return GoogleDrive.getFile(path) != null;
     }
 
     @Override
@@ -95,13 +63,13 @@ public class DriveFileChecker extends FileChecker {
     }
 
     private int countFiles(String name, int counter) throws Exception {
-        File root = GoogleDrive.getRootFile(name);
+        File root = GoogleDrive.getFile(name);
         String query = "parents='" + root.getId() + "'";
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, size, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         for (File file: list.getFiles()) {
             if (!file.getMimeType().equals("application/vnd.google-apps.folder")) {
-                counter = countFiles(file.getName(), counter);
+                counter = countFiles(name + "/" + file.getName(), counter);
             }
             else {
                 counter++;

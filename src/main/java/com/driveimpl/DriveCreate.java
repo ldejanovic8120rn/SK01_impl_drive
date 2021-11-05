@@ -11,11 +11,9 @@ public class DriveCreate extends Create {
     @Override
     public void saveDirectory(String directoryName) throws Exception {
         directoryName = StorageInfo.getStorageInfo().getConfig().getPath() + directoryName;
-
         String name = directoryName.split("/")[directoryName.split("/").length - 1];
-        String parentName = directoryName.split("/")[directoryName.split("/").length - 2];
-        File parent = GoogleDrive.getRootFile(parentName);
 
+        File parent = GoogleDrive.getFile(getPath(directoryName));
         File fileMetadata = new File();
 
         fileMetadata.setName(name);
@@ -28,11 +26,9 @@ public class DriveCreate extends Create {
     @Override
     public void saveFile(String fileName) throws Exception {
         fileName = StorageInfo.getStorageInfo().getConfig().getPath() + fileName;
-
         String name = fileName.split("/")[fileName.split("/").length - 1];
-        String parentName = fileName.split("/")[fileName.split("/").length - 2];
-        File parent = GoogleDrive.getRootFile(parentName);
 
+        File parent = GoogleDrive.getFile(getPath(fileName));
         File fileMetadata = new File();
 
         fileMetadata.setName(name);
@@ -51,5 +47,19 @@ public class DriveCreate extends Create {
         }
 
         GoogleDrive.service.files().create(fileMetadata).setFields("id, name").execute();
+    }
+
+    private String getPath(String path) {
+        String parts[] = path.split("/");
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < parts.length - 1; i++) {
+            sb.append(parts[i]);
+            if (i != parts.length - 2) {
+                sb.append("/");
+            }
+        }
+
+        return sb.toString();
     }
 }

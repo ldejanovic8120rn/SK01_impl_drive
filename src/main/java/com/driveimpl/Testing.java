@@ -1,8 +1,10 @@
 package com.driveimpl;
 
 import com.google.api.services.drive.model.File;
+import com.utils.FileMetadata;
 
 import java.io.*;
+import java.util.List;
 
 public class Testing {
 
@@ -119,7 +121,13 @@ public class Testing {
 //        config.delete();
 
 
-        File file = GoogleDrive.getFile("MyStorage/dir2/config.json");
-        System.out.println("PARENT - " + file.getParents());
+//        DriveOperations dp = new DriveOperations();
+//        try {
+//            List<FileMetadata> fileMetadataList = dp.getAllFilesRecursive("Storage1");
+//            System.out.println(fileMetadataList);
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }

@@ -15,10 +15,7 @@ public class DriveDelete extends Delete {
             throw new Exception("Direktorijum ne postoji!");
         }
 
-        String name = directoryName.split("/")[directoryName.split("/").length - 1];
-        String parentName = directoryName.split("/")[directoryName.split("/").length - 2];
-        File child = GoogleDrive.getFileByParent(parentName, name);
-
+        File child = GoogleDrive.getFile(directoryName);
         GoogleDrive.service.files().delete(child.getId()).execute();
     }
 
@@ -30,13 +27,13 @@ public class DriveDelete extends Delete {
             throw new Exception("Fajl ne postoji!");
         }
 
-        String name = fileName.split("/")[fileName.split("/").length - 1];
-        String parentName = fileName.split("/")[fileName.split("/").length - 2];
-        File child = GoogleDrive.getFileByParent(parentName, name);
-
+        File child = GoogleDrive.getFile(fileName);
         GoogleDrive.service.files().delete(child.getId()).execute();
     }
 
+    /**
+     * By - Doktor Prof. Vuk Vukovic
+     * */
     @Override
     public void deleteAll(String rootPath) throws Exception {
         File root = GoogleDrive.getRootFile(rootPath);
