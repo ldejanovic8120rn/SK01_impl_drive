@@ -24,7 +24,7 @@ public class DriveOperations extends Operations {
 
         File dir = GoogleDrive.getFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
-        FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+        FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         List<File> files = new ArrayList<>();
         for (File file: list.getFiles()) {
@@ -43,7 +43,7 @@ public class DriveOperations extends Operations {
 
         File dir = GoogleDrive.getFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
-        FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+        FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         List<File> files = new ArrayList<>();
         for (File file: list.getFiles()) {
@@ -62,7 +62,7 @@ public class DriveOperations extends Operations {
 
         File dir = GoogleDrive.getFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
-        FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+        FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         List<File> files = new ArrayList<>();
         List<FileMetadata> metadataList = new ArrayList<>();

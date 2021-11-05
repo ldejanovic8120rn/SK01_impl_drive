@@ -48,6 +48,10 @@ public class DriveStorage extends Storage {
 
     @Override
     public void createStorage(String path, String storageName, String adminName, String adminPsw) throws Exception {
+        if (StorageInfo.getStorageInfo().getUser().isLogged()) {
+            throw new Exception("Da bi se kreiralo skladiste, korisnik mora biti izlogovan");
+        }
+
         String parentName = path.split("/")[path.split("/").length - 1];
         File parent = GoogleDrive.getFile(parentName);
 

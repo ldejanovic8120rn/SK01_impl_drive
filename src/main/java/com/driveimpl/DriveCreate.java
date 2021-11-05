@@ -38,6 +38,18 @@ public class DriveCreate extends Create {
         fileMetadata.setName(name);
         fileMetadata.setParents(Arrays.asList(parent.getId()));
 
+        if (!DriveFileChecker.getDFC().ckeckExtention(fileMetadata.getFileExtension())) {
+            throw new Exception("Nedozvoljena ekstenzija");
+        }
+
+        if (!DriveFileChecker.getDFC().checkNumOfFiles()) {
+            throw new Exception("Prekoracen broj fajlova");
+        }
+
+        if (!DriveFileChecker.getDFC().checkMaxSize(fileMetadata.getSize())) {
+            throw new Exception("Prekoracena velicina skladista");
+        }
+
         GoogleDrive.service.files().create(fileMetadata).setFields("id, name").execute();
     }
 }

@@ -33,7 +33,7 @@ public class DriveDelete extends Delete {
     public void deleteAll(String rootPath) throws Exception {
         File root = GoogleDrive.getFile(rootPath);
         String query = "parents=" + "'" + root.getId() + "'";
-        FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+        FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         for (File file: list.getFiles()) {
             if (!file.getName().equals("config.json") && !file.getName().equals("users.json")) {

@@ -18,17 +18,10 @@ public class Testing {
         /**
          * NALAZENJE FAJLA
         **/
-//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='MyStorage'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
-//        for (File file: list.getFiles()) {
-//            String query = "parents=" + "'" + file.getId() + "'";
-//            FileList list1 = com.driveimpl.GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
-//
-//            for (File file1: list1.getFiles()) {
-//                System.out.println(file1.getName());
-//            }
-//
-//            break;
-//        }
+        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='novi.txt'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
+        for (File file: list.getFiles()) {
+            System.out.println(file.getFileExtension());
+        }
 
 
         /**
