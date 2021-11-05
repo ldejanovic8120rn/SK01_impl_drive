@@ -6,6 +6,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.storage.Operations;
 import com.utils.FileMetadata;
+import com.utils.Privilege;
 import com.utils.StorageInfo;
 
 import java.io.FileOutputStream;
@@ -21,6 +22,14 @@ public class DriveOperations extends Operations {
     public List<FileMetadata> getAllFiles(String path) throws Exception {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
         String name = path.split("/")[path.split("/").length - 1];
+
+        if (!StorageInfo.getStorageInfo().checkUser()) {
+            throw new Exception("Korisnik nije logovan");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
+            throw new Exception("Ne postoji zadata putanja u skladistu");
+        }
 
         File dir = GoogleDrive.getFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
@@ -41,6 +50,14 @@ public class DriveOperations extends Operations {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
         String name = path.split("/")[path.split("/").length - 1];
 
+        if (!StorageInfo.getStorageInfo().checkUser()) {
+            throw new Exception("Korisnik nije logovan");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
+            throw new Exception("Ne postoji zadata putanja u skladistu");
+        }
+
         File dir = GoogleDrive.getFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
@@ -59,6 +76,14 @@ public class DriveOperations extends Operations {
     public List<FileMetadata> getAllFilesRecursive(String path) throws Exception {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
         String name = path.split("/")[path.split("/").length - 1];
+
+        if (!StorageInfo.getStorageInfo().checkUser()) {
+            throw new Exception("Korisnik nije logovan");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
+            throw new Exception("Ne postoji zadata putanja u skladistu");
+        }
 
         File dir = GoogleDrive.getFile(name);
         String query = "parents=" + "'" + dir.getId() + "'";
@@ -83,8 +108,16 @@ public class DriveOperations extends Operations {
     public void download(String path) throws Exception {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
         String name = path.split("/")[path.split("/").length - 1];
-        File driveFile = GoogleDrive.getFile(name);
 
+        if (!StorageInfo.getStorageInfo().checkUser()) {
+            throw new Exception("Korisnik nije logovan");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
+            throw new Exception("Ne postoji zadata putanja u skladistu");
+        }
+
+        File driveFile = GoogleDrive.getFile(name);
         java.io.File file = new java.io.File(driveFile.getName());
         OutputStream outputstream = new FileOutputStream(file);
         com.driveimpl.GoogleDrive.service.files().get(driveFile.getId()).executeMediaAndDownloadTo(outputstream);
@@ -100,7 +133,32 @@ public class DriveOperations extends Operations {
         String parentName = toPath.split("/")[fromPath.split("/").length - 1];
         File parent = GoogleDrive.getFile(parentName);
 
+        if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD)) {
+            throw new Exception("Korisnik nije logovan ili nema privilegiju");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckPath(fromPath)) {
+            throw new Exception("Fajl ne postoji");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(toPath)) {
+            throw new Exception("Ne postoji zadata putanja u skladistu");
+        }
+
+        String extension = name.split("\\.")[1];
+        if (!DriveFileChecker.getDFC().ckeckExtention(extension)) {
+            throw new Exception("Nedozvoljena ekstenzija");
+        }
+
+        if (!DriveFileChecker.getDFC().checkNumOfFiles()) {
+            throw new Exception("Prekoracen broj fajlova");
+        }
+
         java.io.File uploadFile = new java.io.File(fromPath);
+        if (!DriveFileChecker.getDFC().checkMaxSize(uploadFile.length())) {
+            throw new Exception("Prekoracena velicina skladista");
+        }
+
         AbstractInputStreamContent uploadStreamContent = new FileContent(null, uploadFile);
 
         File fileMetadata = new File();
@@ -112,10 +170,23 @@ public class DriveOperations extends Operations {
 
     @Override
     public void moveFile(String fromPath, String toPath) throws Exception {
+        fromPath = StorageInfo.getStorageInfo().getConfig().getPath() + fromPath;
         String fileName = fromPath.split("/")[fromPath.split("/").length - 1];
 
         toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;
         String dirName = toPath.split("/")[fromPath.split("/").length - 1];
+
+        if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD)) {
+            throw new Exception("Korisnik nije logovan ili nema privilegiju");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(fromPath)) {
+            throw new Exception("Ne postoji zadata putanja u skladistu za - fromPath");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(toPath)) {
+            throw new Exception("Ne postoji zadata putanja u skladistu za - toPath");
+        }
 
         File file = GoogleDrive.getFile(fileName);
         File dir = GoogleDrive.getFile(dirName);

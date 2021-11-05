@@ -11,6 +11,10 @@ public class DriveDelete extends Delete {
     public void deleteDirectory(String directoryName) throws Exception {
         directoryName = StorageInfo.getStorageInfo().getConfig().getPath() + directoryName;
 
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(directoryName)) {
+            throw new Exception("Direktorijum ne postoji!");
+        }
+
         String name = directoryName.split("/")[directoryName.split("/").length - 1];
         String parentName = directoryName.split("/")[directoryName.split("/").length - 2];
         File child = GoogleDrive.getFileByParent(parentName, name);
@@ -21,6 +25,10 @@ public class DriveDelete extends Delete {
     @Override
     public void deleteFile(String fileName) throws Exception {
         fileName = StorageInfo.getStorageInfo().getConfig().getPath() + fileName;
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(fileName)) {
+            throw new Exception("Fajl ne postoji!");
+        }
 
         String name = fileName.split("/")[fileName.split("/").length - 1];
         String parentName = fileName.split("/")[fileName.split("/").length - 2];

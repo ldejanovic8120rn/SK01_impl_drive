@@ -18,10 +18,10 @@ public class Testing {
         /**
          * NALAZENJE FAJLA
         **/
-        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='novi.txt'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
-        for (File file: list.getFiles()) {
-            System.out.println(file.getFileExtension());
-        }
+//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='novi.txt'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
+//        for (File file: list.getFiles()) {
+//            System.out.println(file.getFileExtension());
+//        }
 
 
         /**
@@ -96,14 +96,14 @@ public class Testing {
         /**
          * BRISANJE FAJLA
          **/
-//        FileList list = GoogleDrive.service.files().list().setQ("name='FolderZaBrisanje'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
-//        String fileID = null;
-//        for (File file: list.getFiles()) {
-//            fileID = file.getId();
-//            System.out.println(file.getName() + " " + file.getMimeType());
-//        }
-//
-//        GoogleDrive.service.files().delete(fileID).execute();
+        FileList list = GoogleDrive.service.files().list().setQ("name='ovajsigurnonepostoji'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
+        String fileID = null;
+        for (File file: list.getFiles()) {
+            fileID = file.getId();
+            System.out.println(file.getName() + " " + file.getMimeType());
+        }
+
+        GoogleDrive.service.files().delete(fileID).execute();
 
 
 
