@@ -67,20 +67,21 @@ public class Testing {
         /**
          * DOWNLOAD FAJLA
          **/
-//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='TEST'")
-//                .setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents)").execute();
-//        String fileID = null;
-//        for (File file: list.getFiles()) {
-//            fileID = file.getId();
-//            System.out.println(file.getName() + " " + file.getMimeType());
-//        }
+        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='empty.txt'")
+                .setFields("nextPageToken, files(id, name, size, createdTime, mimeType, modifiedTime, parents)").execute();
+        String fileID = null;
+        for (File file: list.getFiles()) {
+            fileID = file.getId();
+            break;
+            //System.out.println(file.getName() + " " + file.getSize() + " " + file.getCreatedTime() + " " + file.getModifiedTime());
+        }
 //
-//        String fileName = "TEST";
-//        java.io.File config = new java.io.File("");  //TODO - za users i config
-//        OutputStream outputstream = new FileOutputStream(fileName);
-//        com.driveimpl.GoogleDrive.service.files().get(fileID).executeMediaAndDownloadTo(outputstream);
-//        outputstream.flush();
-//        outputstream.close();
+        String fileName = "empty.txt";
+        java.io.File config = new java.io.File(fileName);  //TODO - za users i config
+        OutputStream outputstream = new FileOutputStream(config);
+        com.driveimpl.GoogleDrive.service.files().get(fileID).executeMediaAndDownloadTo(outputstream);
+        outputstream.flush();
+        outputstream.close();
 
 
         /**
