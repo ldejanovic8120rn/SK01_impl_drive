@@ -112,7 +112,21 @@ public class DriveOperations extends Operations {
 
     @Override
     public void moveFile(String fromPath, String toPath) throws Exception {
-        // TODO - brisanje trenutnog roditelja i dodavanje novog roditelja
+        String fileName = fromPath.split("/")[fromPath.split("/").length - 1];
+
+        toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;
+        String dirName = toPath.split("/")[fromPath.split("/").length - 1];
+
+        File file = GoogleDrive.getFile(fileName);
+        File dir = GoogleDrive.getFile(dirName);
+
+        StringBuilder previousParents = new StringBuilder();
+        for (String parent : file.getParents()) {
+            previousParents.append(parent);
+            previousParents.append(',');
+        }
+
+        GoogleDrive.service.files().update(file.getId(), null).setAddParents(dir.getId()).setRemoveParents(previousParents.toString()).setFields("id, parents").execute();
     }
 
     private List<FileMetadata> getFileMetadata(List<File> files) {

@@ -53,35 +53,51 @@ public class Testing {
         /**
          * UPLOAD FAJLA
          **/
-//        java.io.File uploadFile = new java.io.File("/Users/lazardejanovic/Downloads/proba.txt");
+//        java.io.File uploadFile = new java.io.File("/Users/lazardejanovic/Downloads/novi.txt");
 //        AbstractInputStreamContent uploadStreamContent = new FileContent(null, uploadFile);
 //        File parent = GoogleDrive.getFile("TEST");
 //
 //        File fileMetadata = new File();
-//        fileMetadata.setName("proba.txt");
+//        fileMetadata.setName("novi.txt");
 //        fileMetadata.setParents(Arrays.asList(parent.getId()));
 //
 //        GoogleDrive.service.files().create(fileMetadata, uploadStreamContent).setFields("id, webContentLink, webViewLink, parents").execute();
+
+//        File tmp = GoogleDrive.getFile("test.json");
+//        File parent1 = GoogleDrive.getFile("TEST1");
+//
+//        StringBuilder previousParents = new StringBuilder();
+//        for (String parent : tmp.getParents()) {
+//            previousParents.append(parent);
+//            previousParents.append(',');
+//        }
+//// Move the file to the new folder
+//        GoogleDrive.service.files().update(tmp.getId(), null)
+//                .setAddParents(parent1.getId())
+//                .setRemoveParents(previousParents.toString())
+//                .setFields("id, parents")
+//                .execute();
+
 
 
         /**
          * DOWNLOAD FAJLA
          **/
-        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='empty.txt'")
-                .setFields("nextPageToken, files(id, name, size, createdTime, mimeType, modifiedTime, parents)").execute();
-        String fileID = null;
-        for (File file: list.getFiles()) {
-            fileID = file.getId();
-            break;
-            //System.out.println(file.getName() + " " + file.getSize() + " " + file.getCreatedTime() + " " + file.getModifiedTime());
-        }
-//
-        String fileName = "empty.txt";
-        java.io.File config = new java.io.File(fileName);  //TODO - za users i config
-        OutputStream outputstream = new FileOutputStream(config);
-        com.driveimpl.GoogleDrive.service.files().get(fileID).executeMediaAndDownloadTo(outputstream);
-        outputstream.flush();
-        outputstream.close();
+//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='empty.txt'")
+//                .setFields("nextPageToken, files(id, name, size, createdTime, mimeType, modifiedTime, parents)").execute();
+//        String fileID = null;
+//        for (File file: list.getFiles()) {
+//            fileID = file.getId();
+//            break;
+//            //System.out.println(file.getName() + " " + file.getSize() + " " + file.getCreatedTime() + " " + file.getModifiedTime());
+//        }
+////
+//        String fileName = "empty.txt";
+//        java.io.File config = new java.io.File(fileName);  //TODO - za users i config
+//        OutputStream outputstream = new FileOutputStream(config);
+//        com.driveimpl.GoogleDrive.service.files().get(fileID).executeMediaAndDownloadTo(outputstream);
+//        outputstream.flush();
+//        outputstream.close();
 
 
         /**
