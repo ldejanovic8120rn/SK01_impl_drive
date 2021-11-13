@@ -59,7 +59,7 @@ public class DriveFileChecker extends FileChecker {
 
     @Override
     public boolean ckeckExtention(String extension) {
-        return StorageInfo.getStorageInfo().getConfig().getUnsupportedFiles().contains(extension);
+        return !StorageInfo.getStorageInfo().getConfig().getUnsupportedFiles().contains(extension);
     }
 
     private int countFiles(String name, int counter) throws Exception {
