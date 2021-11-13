@@ -41,6 +41,8 @@ public class GoogleDrive {
         StorageManager.registerStorage(new DriveStorage(), new DriveCreate(), new DriveDelete(), new DriveOperations());
     }
 
+    private GoogleDrive() {}
+
     public static Credential authorize() throws IOException {
         InputStream in = GoogleDrive.class.getResourceAsStream("/client_secret.json");
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
