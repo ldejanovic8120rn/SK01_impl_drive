@@ -1,5 +1,6 @@
 package com.driveimpl;
 
+import com.exception.ConfigException;
 import com.google.api.services.drive.model.File;
 import com.storage.Create;
 import com.utils.StorageInfo;
@@ -35,15 +36,15 @@ public class DriveCreate extends Create {
         fileMetadata.setParents(Arrays.asList(parent.getId()));
 
         if (!DriveFileChecker.getDFC().ckeckExtention(fileMetadata.getFileExtension())) {
-            throw new Exception("Nedozvoljena ekstenzija");
+            throw new ConfigException("Unsupported extension");
         }
 
         if (!DriveFileChecker.getDFC().checkNumOfFiles()) {
-            throw new Exception("Prekoracen broj fajlova");
+            throw new ConfigException("Exceeded number of files");
         }
 
         if (!DriveFileChecker.getDFC().checkMaxSize(fileMetadata.getSize())) {
-            throw new Exception("Prekoracena velicina skladista");
+            throw new ConfigException("Exceeded storage size");
         }
 
         GoogleDrive.service.files().create(fileMetadata).setFields("id, name").execute();

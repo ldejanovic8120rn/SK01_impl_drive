@@ -1,5 +1,8 @@
 package com.driveimpl;
 
+import com.exception.ConfigException;
+import com.exception.LogException;
+import com.exception.PathException;
 import com.google.api.client.http.AbstractInputStreamContent;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
@@ -23,11 +26,11 @@ public class DriveOperations extends Operations {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
 
         if (!StorageInfo.getStorageInfo().checkUser()) {
-            throw new Exception("Korisnik nije logovan");
+            throw new LogException("User isn't logged or doesn't have permission");
         }
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
-            throw new Exception("Ne postoji zadata putanja u skladistu");
+            throw new PathException("Path doesn't exist in storage");
         }
 
         File dir = GoogleDrive.getFile(path);
@@ -49,11 +52,11 @@ public class DriveOperations extends Operations {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
 
         if (!StorageInfo.getStorageInfo().checkUser()) {
-            throw new Exception("Korisnik nije logovan");
+            throw new LogException("User isn't logged or doesn't have permission");
         }
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
-            throw new Exception("Ne postoji zadata putanja u skladistu");
+            throw new PathException("Path doesn't exist in storage");
         }
 
         File dir = GoogleDrive.getFile(path);
@@ -75,13 +78,13 @@ public class DriveOperations extends Operations {
         String dirPath = path;
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
 
-//        if (!StorageInfo.getStorageInfo().checkUser()) {
-//            throw new Exception("Korisnik nije logovan");
-//        }
-//
-//        if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
-//            throw new Exception("Ne postoji zadata putanja u skladistu");
-//        }
+        if (!StorageInfo.getStorageInfo().checkUser()) {
+            throw new LogException("User isn't logged or doesn't have permission");
+        }
+
+        if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
+            throw new PathException("Path doesn't exist in storage");
+        }
 
         File dir = GoogleDrive.getFile(path);
         String query = "parents=" + "'" + dir.getId() + "'";
@@ -107,11 +110,11 @@ public class DriveOperations extends Operations {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
 
         if (!StorageInfo.getStorageInfo().checkUser()) {
-            throw new Exception("Korisnik nije logovan");
+            throw new LogException("User isn't logged or doesn't have permission");
         }
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(path)) {
-            throw new Exception("Ne postoji zadata putanja u skladistu");
+            throw new PathException("Path doesn't exist in storage");
         }
 
         File driveFile = GoogleDrive.getFile(path);
@@ -128,30 +131,30 @@ public class DriveOperations extends Operations {
         toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD)) {
-            throw new Exception("Korisnik nije logovan ili nema privilegiju");
+            throw new LogException("User isn't logged or doesn't have permission");
         }
 
         if (!DriveFileChecker.getDFC().ckeckPath(fromPath)) {
-            throw new Exception("Fajl ne postoji");
+            throw new PathException("File doesn't exist!");
         }
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(toPath)) {
-            throw new Exception("Ne postoji zadata putanja u skladistu");
+            throw new PathException("Path doesn't exist in storage");
         }
 
         String extension = name.split("\\.")[1];
         if (!DriveFileChecker.getDFC().ckeckExtention(extension)) {
-            throw new Exception("Nedozvoljena ekstenzija");
+            throw new ConfigException("Unsupported extension");
         }
 
         if (!DriveFileChecker.getDFC().checkNumOfFiles()) {
-            throw new Exception("Prekoracen broj fajlova");
+            throw new ConfigException("Exceeded number of files");
         }
 
         File parent = GoogleDrive.getFile(toPath);
         java.io.File uploadFile = new java.io.File(fromPath);
         if (!DriveFileChecker.getDFC().checkMaxSize(uploadFile.length())) {
-            throw new Exception("Prekoracena velicina skladista");
+            throw new ConfigException("Exceeded storage size");
         }
 
         AbstractInputStreamContent uploadStreamContent = new FileContent(null, uploadFile);
@@ -169,15 +172,15 @@ public class DriveOperations extends Operations {
         toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD)) {
-            throw new Exception("Korisnik nije logovan ili nema privilegiju");
+            throw new LogException("User isn't logged or doesn't have permission");
         }
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(fromPath)) {
-            throw new Exception("Ne postoji zadata putanja u skladistu za - fromPath");
+            throw new PathException("Path doesn't exist in storage - fromPath");
         }
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(toPath)) {
-            throw new Exception("Ne postoji zadata putanja u skladistu za - toPath");
+            throw new PathException("Path doesn't exist in storage - toPath");
         }
 
         File file = GoogleDrive.getFile(fromPath);

@@ -1,5 +1,6 @@
 package com.driveimpl;
 
+import com.exception.LogException;
 import com.google.api.client.http.AbstractInputStreamContent;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
@@ -47,7 +48,7 @@ public class DriveStorage extends Storage {
     @Override
     public void createStorage(String path, String storageName, String adminName, String adminPsw) throws Exception {
         if (StorageInfo.getStorageInfo().getUser().isLogged()) {
-            throw new Exception("Da bi se kreiralo skladiste, korisnik mora biti izlogovan");
+            throw new LogException("User must be logged, before creating storage");
         }
 
         File parent = GoogleDrive.getFile(path);

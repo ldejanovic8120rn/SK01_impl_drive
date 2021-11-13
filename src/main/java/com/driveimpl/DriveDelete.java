@@ -1,5 +1,6 @@
 package com.driveimpl;
 
+import com.exception.PathException;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.storage.Delete;
@@ -12,7 +13,7 @@ public class DriveDelete extends Delete {
         directoryName = StorageInfo.getStorageInfo().getConfig().getPath() + directoryName;
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(directoryName)) {
-            throw new Exception("Direktorijum ne postoji!");
+            throw new PathException("Directory doesn't exist!");
         }
 
         File child = GoogleDrive.getFile(directoryName);
@@ -24,7 +25,7 @@ public class DriveDelete extends Delete {
         fileName = StorageInfo.getStorageInfo().getConfig().getPath() + fileName;
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(fileName)) {
-            throw new Exception("Fajl ne postoji!");
+            throw new PathException("File doesn't exist!");
         }
 
         File child = GoogleDrive.getFile(fileName);
