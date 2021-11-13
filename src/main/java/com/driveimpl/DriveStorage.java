@@ -5,6 +5,8 @@ import com.google.api.client.http.AbstractInputStreamContent;
 import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.model.File;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.storage.Storage;
 import com.utils.Privilege;
 import com.utils.StorageInfo;
@@ -97,16 +99,23 @@ public class DriveStorage extends Storage {
 
     @Override
     public void editUsers(String storageName, String name, String password, Privilege privilege) throws Exception {
-        Map<String, Object> usersMap = new HashMap<>();
-        usersMap.put("name", name);
-        usersMap.put("password", password);
-        usersMap.put("privilege", privilege);
+        JsonObject user = new JsonObject();
+        user.addProperty("name", name);
+        user.addProperty("password", password);
+        user.addProperty("privilege", String.valueOf(privilege));
 
         java.io.File users = getUsers(storageName);
         try {
-            Writer writer = new FileWriter(users, true);
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(users));
+            String line = bufferedReader.readLine();
+            line = line.replace("]", "");
+
+            Writer writer = new FileWriter(users, false);
+            writer.append(line);
             writer.append(",");
-            new Gson().toJson(usersMap, writer);
+
+            new Gson().toJson(user, writer);
+            writer.append("]");
             writer.close();
         }
         catch (IOException e) {
@@ -138,14 +147,16 @@ public class DriveStorage extends Storage {
     }
 
     private void initUsers(java.io.File usersFile, String adminName, String adminPsw) {
-        Map<String, Object> usersMap = new HashMap<>();
-        usersMap.put("name", adminName);
-        usersMap.put("password", adminPsw);
-        usersMap.put("privilege", Privilege.ADMIN);
+        JsonObject user = new JsonObject();
+        user.addProperty("name", adminName);
+        user.addProperty("password", adminPsw);
+        user.addProperty("privilege", String.valueOf(Privilege.ADMIN));
 
+        JsonArray jsonArray = new JsonArray();
+        jsonArray.add(user);
         try {
             Writer writer = new FileWriter(usersFile);
-            new Gson().toJson(usersMap, writer);
+            new Gson().toJson(jsonArray, writer);
             writer.close();
         }
         catch (IOException e) {
