@@ -25,7 +25,7 @@ public class DriveOperations extends Operations {
     public List<FileMetadata> getAllFiles(String path) throws Exception {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
 
-        if (!StorageInfo.getStorageInfo().checkUser()) {
+        if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD, Privilege.RD, Privilege.RO)) {
             throw new LogException("User isn't logged or doesn't have permission");
         }
 
@@ -51,7 +51,7 @@ public class DriveOperations extends Operations {
     public List<FileMetadata> getAllDirectories(String path) throws Exception {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
 
-        if (!StorageInfo.getStorageInfo().checkUser()) {
+        if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD, Privilege.RD, Privilege.RO)) {
             throw new LogException("User isn't logged or doesn't have permission");
         }
 
@@ -78,7 +78,7 @@ public class DriveOperations extends Operations {
         String dirPath = path;
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
 
-        if (!StorageInfo.getStorageInfo().checkUser()) {
+        if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD, Privilege.RD, Privilege.RO)) {
             throw new LogException("User isn't logged or doesn't have permission");
         }
 
@@ -109,7 +109,7 @@ public class DriveOperations extends Operations {
     public void download(String path) throws Exception {
         path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
 
-        if (!StorageInfo.getStorageInfo().checkUser()) {
+        if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD, Privilege.RD)) {
             throw new LogException("User isn't logged or doesn't have permission");
         }
 
