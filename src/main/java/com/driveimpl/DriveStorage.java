@@ -139,7 +139,7 @@ public class DriveStorage extends Storage {
         configMap.put("admin", adminName);
         configMap.put("maxSize", "UN");
         configMap.put("maxNumOfFiles", "UN");
-        configMap.put("unsupportedFiles", null);  // proveriti da li pravi praznu listu
+        configMap.put("unsupportedFiles", null);
 
         try {
             Writer writer = new FileWriter(configFile);

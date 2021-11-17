@@ -47,7 +47,7 @@ public class DriveCreate extends Create {
         GoogleDrive.service.files().create(fileMetadata).setFields("id, name").execute();
     }
 
-    private String getPath(String path) {  //DriveStorage1/dir1/dir11/file.txt
+    private String getPath(String path) {
         String parts[] = path.split("/");
         StringBuilder sb = new StringBuilder();
 

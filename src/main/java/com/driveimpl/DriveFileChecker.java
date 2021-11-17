@@ -68,7 +68,7 @@ public class DriveFileChecker extends FileChecker {
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, size, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         for (File file: list.getFiles()) {
-            if (!file.getMimeType().equals("application/vnd.google-apps.folder")) {
+            if (file.getMimeType().equals("application/vnd.google-apps.folder")) {
                 counter = countFiles(name + "/" + file.getName(), counter);
             }
             else {
