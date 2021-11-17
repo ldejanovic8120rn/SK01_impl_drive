@@ -58,7 +58,12 @@ public class DriveStorage extends Storage {
 
         fileMetadata.setName(storageName);
         fileMetadata.setMimeType("application/vnd.google-apps.folder");
-        fileMetadata.setParents(Arrays.asList(parent.getId()));
+        if (parent == null) {
+            fileMetadata.setParents(null);
+        }
+        else {
+            fileMetadata.setParents(Arrays.asList(parent.getId()));
+        }
 
         GoogleDrive.service.files().create(fileMetadata).setFields("id, name").execute();
 

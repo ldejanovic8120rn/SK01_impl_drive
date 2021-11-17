@@ -1,6 +1,7 @@
 package com.driveimpl;
 
 import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.FileList;
 import com.utils.FileMetadata;
 
 import java.io.*;
@@ -12,11 +13,15 @@ public class Testing {
         /**
          * NALAZENJE FAJLA
         **/
-//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='novi.txt'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
+//        FileList list = com.driveimpl.GoogleDrive.service.files().list().setQ("name='Folder'").setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
+//        String id = null;
 //        for (File file: list.getFiles()) {
-//            System.out.println(file.getFileExtension());
+//            System.out.println(file.getParents());
+//            id = file.getParents().get(0);
+//            break;
 //        }
-
+//        File file1 = com.driveimpl.GoogleDrive.service.files().get(id).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
+//        System.out.println(file1.getName());
 
         /**
          * KREIRANJE FOLDERA
