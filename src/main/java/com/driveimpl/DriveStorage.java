@@ -97,7 +97,7 @@ public class DriveStorage extends Storage {
         }
 
         File configDrive = GoogleDrive.getFile(storageName + "/config.json");
-        GoogleDrive.service.files().delete(configDrive.getId());
+        GoogleDrive.service.files().delete(configDrive.getId()).execute();
         createSettings(config, storageName);
         config.delete();
     }
@@ -128,7 +128,7 @@ public class DriveStorage extends Storage {
         }
 
         File usersDrive = GoogleDrive.getFile(storageName + "/users.json");
-        GoogleDrive.service.files().delete(usersDrive.getId());
+        GoogleDrive.service.files().delete(usersDrive.getId()).execute();
         createSettings(users, storageName);
         users.delete();
     }

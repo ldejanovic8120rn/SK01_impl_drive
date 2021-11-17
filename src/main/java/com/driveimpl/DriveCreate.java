@@ -26,6 +26,7 @@ public class DriveCreate extends Create {
 
     @Override
     public void saveFile(String fileName) throws Exception {
+        String extension = fileName;
         fileName = StorageInfo.getStorageInfo().getConfig().getPath() + fileName;
         String name = fileName.split("/")[fileName.split("/").length - 1];
 
@@ -35,7 +36,7 @@ public class DriveCreate extends Create {
         fileMetadata.setName(name);
         fileMetadata.setParents(Arrays.asList(parent.getId()));
 
-        if (!DriveFileChecker.getDFC().ckeckExtention(fileMetadata.getFileExtension())) {
+        if (!DriveFileChecker.getDFC().ckeckExtention(extension)) {
             throw new ConfigException("Unsupported extension");
         }
 
@@ -43,14 +44,10 @@ public class DriveCreate extends Create {
             throw new ConfigException("Exceeded number of files");
         }
 
-        if (!DriveFileChecker.getDFC().checkMaxSize(fileMetadata.getSize())) {
-            throw new ConfigException("Exceeded storage size");
-        }
-
         GoogleDrive.service.files().create(fileMetadata).setFields("id, name").execute();
     }
 
-    private String getPath(String path) {
+    private String getPath(String path) {  //DriveStorage1/dir1/dir11/file.txt
         String parts[] = path.split("/");
         StringBuilder sb = new StringBuilder();
 
