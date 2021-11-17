@@ -142,9 +142,11 @@ public class DriveOperations extends Operations {
             throw new PathException("Path doesn't exist in storage");
         }
 
-        String extension = name.split("\\.")[1];
-        if (!DriveFileChecker.getDFC().ckeckExtention(extension)) {
-            throw new ConfigException("Unsupported extension");
+        if (name.contains("\\.")) {
+            String extension = name.split("\\.")[1];
+            if (!DriveFileChecker.getDFC().ckeckExtention(extension)) {
+                throw new ConfigException("Unsupported extension");
+            }
         }
 
         if (!DriveFileChecker.getDFC().checkNumOfFiles()) {
