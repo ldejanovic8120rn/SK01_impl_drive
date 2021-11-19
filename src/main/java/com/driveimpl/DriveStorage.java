@@ -58,7 +58,7 @@ public class DriveStorage extends Storage {
 
         fileMetadata.setName(storageName);
         fileMetadata.setMimeType("application/vnd.google-apps.folder");
-        if (parent == null) {  //My Drive
+        if (parent == null) {  //My Drive je parent
             fileMetadata.setParents(null);
         }
         else {
