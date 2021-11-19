@@ -106,7 +106,9 @@ public class Testing {
 
 
 
-
+        /**
+         * Testiranje pravljena json-a
+         * */
 //        Map<String, Object> configMap = new HashMap<>();
 //        configMap.put("path", "Skladiste");
 //        configMap.put("admin", "admin");
