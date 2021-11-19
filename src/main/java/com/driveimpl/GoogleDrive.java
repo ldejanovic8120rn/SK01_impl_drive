@@ -95,7 +95,7 @@ public class GoogleDrive {
 
     /**
      * By - Doktor Prof. Lazar Dejanovic
-     * */
+     */
     public static File getFile(String path) {  //npr path: MyStorage/Folder1/Folder2/Folder3 - dolazimo do Foldera3 od korena
         String[] files = path.split("/");
         File root = GoogleDrive.getRootFile(files[0]);  //MyStorage
