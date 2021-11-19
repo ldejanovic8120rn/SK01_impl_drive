@@ -23,7 +23,7 @@ public class DriveOperations extends Operations {
 
     @Override
     public List<FileMetadata> getAllFiles(String path) throws Exception {
-        path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
+        path = StorageInfo.getStorageInfo().getConfig().getPath() + path;  //konkateniramo ime skladista zbog nalazenja korektnog fajla
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD, Privilege.RD, Privilege.RO)) {
             throw new LogException("User isn't logged or doesn't have permission");
@@ -34,7 +34,7 @@ public class DriveOperations extends Operations {
         }
 
         File dir = GoogleDrive.getFile(path);
-        String query = "parents=" + "'" + dir.getId() + "'";
+        String query = "parents=" + "'" + dir.getId() + "'";  //nalazimo decu preko parent id-a
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         List<File> files = new ArrayList<>();
@@ -49,7 +49,7 @@ public class DriveOperations extends Operations {
 
     @Override
     public List<FileMetadata> getAllDirectories(String path) throws Exception {
-        path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
+        path = StorageInfo.getStorageInfo().getConfig().getPath() + path;  //konkateniramo ime skladista zbog nalazenja korektnog foldera
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD, Privilege.RD, Privilege.RO)) {
             throw new LogException("User isn't logged or doesn't have permission");
@@ -60,7 +60,7 @@ public class DriveOperations extends Operations {
         }
 
         File dir = GoogleDrive.getFile(path);
-        String query = "parents=" + "'" + dir.getId() + "'";
+        String query = "parents=" + "'" + dir.getId() + "'";  //nalazimo decu preko parent id-a
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         List<File> files = new ArrayList<>();
@@ -74,9 +74,9 @@ public class DriveOperations extends Operations {
     }
 
     @Override
-    public List<FileMetadata> getAllFilesRecursive(String path) throws Exception {
-        String dirPath = path;
-        path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
+    public List<FileMetadata> getAllFilesRecursive(String path) throws Exception {  //npr /Folder1
+        String dirPath = path;  //zbog rekuzrivnog prosledjivanja - /Folder1
+        path = StorageInfo.getStorageInfo().getConfig().getPath() + path; //MyStorage/Folder1
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD, Privilege.RD, Privilege.RO)) {
             throw new LogException("User isn't logged or doesn't have permission");
@@ -107,7 +107,7 @@ public class DriveOperations extends Operations {
 
     @Override
     public void download(String path) throws Exception {
-        path = StorageInfo.getStorageInfo().getConfig().getPath() + path;
+        path = StorageInfo.getStorageInfo().getConfig().getPath() + path;  //konkateniramo ime skladista zbog nalazenja korektnog fajla
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD, Privilege.RD)) {
             throw new LogException("User isn't logged or doesn't have permission");
@@ -128,7 +128,7 @@ public class DriveOperations extends Operations {
     @Override
     public void uploadFile(String fromPath, String toPath) throws Exception {
         String name = fromPath.split("/")[fromPath.split("/").length - 1];
-        toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;
+        toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;  //konkateniramo ime skladista zbog nalazenja korektnog foldera
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD)) {
             throw new LogException("User isn't logged or doesn't have permission");
@@ -170,8 +170,8 @@ public class DriveOperations extends Operations {
 
     @Override
     public void moveFile(String fromPath, String toPath) throws Exception {
-        fromPath = StorageInfo.getStorageInfo().getConfig().getPath() + fromPath;
-        toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;
+        fromPath = StorageInfo.getStorageInfo().getConfig().getPath() + fromPath;  //konkateniramo ime skladista zbog nalazenja korektnog foldera
+        toPath = StorageInfo.getStorageInfo().getConfig().getPath() + toPath;  //konkateniramo ime skladista zbog nalazenja korektnog foldera
 
         if (!StorageInfo.getStorageInfo().checkUser(Privilege.ADMIN, Privilege.RDCD)) {
             throw new LogException("User isn't logged or doesn't have permission");
@@ -188,7 +188,7 @@ public class DriveOperations extends Operations {
         File file = GoogleDrive.getFile(fromPath);
         File dir = GoogleDrive.getFile(toPath);
 
-        StringBuilder previousParents = new StringBuilder();
+        StringBuilder previousParents = new StringBuilder();  //mora builder, jer toString lose radi
         for (String parent : file.getParents()) {
             previousParents.append(parent);
             previousParents.append(',');

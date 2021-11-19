@@ -53,12 +53,12 @@ public class DriveStorage extends Storage {
             throw new LogException("User must be logged, before creating storage");
         }
 
-        File parent = GoogleDrive.getFile(path);
+        File parent = GoogleDrive.getFile(path);  //uzimamo roditelja kod kog cemo da kreiramo skladiste
         File fileMetadata = new File();
 
         fileMetadata.setName(storageName);
         fileMetadata.setMimeType("application/vnd.google-apps.folder");
-        if (parent == null) {
+        if (parent == null) {  //My Drive
             fileMetadata.setParents(null);
         }
         else {
@@ -70,11 +70,11 @@ public class DriveStorage extends Storage {
         java.io.File configFile = new java.io.File("config.json");
         java.io.File usersFile = new java.io.File("users.json");
 
-        initConfig(configFile, storageName, adminName);
-        initUsers(usersFile, adminName, adminPsw);
+        initConfig(configFile, storageName, adminName);  //napravimo config.json
+        initUsers(usersFile, adminName, adminPsw);  //napravimo users.json
 
-        createSettings(configFile, storageName);
-        createSettings(usersFile, storageName);
+        createSettings(configFile, storageName);  //sacuvamo na drive-u config.json
+        createSettings(usersFile, storageName);  //sacuvamo na drive-u config.json
     }
 
     @Override
@@ -96,10 +96,10 @@ public class DriveStorage extends Storage {
             e.printStackTrace();
         }
 
-        File configDrive = GoogleDrive.getFile(storageName + "/config.json");
-        GoogleDrive.service.files().delete(configDrive.getId()).execute();
-        createSettings(config, storageName);
-        config.delete();
+        File configDrive = GoogleDrive.getFile(storageName + "/config.json");  //uzmemo file sa drive-a
+        GoogleDrive.service.files().delete(configDrive.getId()).execute();  //obrisemo ga
+        createSettings(config, storageName);  //dodamo izmenjeni
+        config.delete();  //obrisemo ga lokalno
     }
 
     @Override
@@ -127,10 +127,10 @@ public class DriveStorage extends Storage {
             e.printStackTrace();
         }
 
-        File usersDrive = GoogleDrive.getFile(storageName + "/users.json");
-        GoogleDrive.service.files().delete(usersDrive.getId()).execute();
-        createSettings(users, storageName);
-        users.delete();
+        File usersDrive = GoogleDrive.getFile(storageName + "/users.json");  //uzmemo file sa drive-a
+        GoogleDrive.service.files().delete(usersDrive.getId()).execute();  //obrisemo ga
+        createSettings(users, storageName);  //dodamo izmenjeni
+        users.delete();  //obrisemo ga lokalno
     }
 
     private void initConfig(java.io.File configFile, String path, String adminName) {

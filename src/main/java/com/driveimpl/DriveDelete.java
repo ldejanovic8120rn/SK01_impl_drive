@@ -10,7 +10,7 @@ public class DriveDelete extends Delete {
 
     @Override
     public void deleteDirectory(String directoryName) throws Exception {
-        directoryName = StorageInfo.getStorageInfo().getConfig().getPath() + directoryName;
+        directoryName = StorageInfo.getStorageInfo().getConfig().getPath() + directoryName;  //konkateniramo ime skladista zbog nalazenja korektnog foldera
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(directoryName)) {
             throw new PathException("Directory doesn't exist!");
@@ -22,7 +22,7 @@ public class DriveDelete extends Delete {
 
     @Override
     public void deleteFile(String fileName) throws Exception {
-        fileName = StorageInfo.getStorageInfo().getConfig().getPath() + fileName;
+        fileName = StorageInfo.getStorageInfo().getConfig().getPath() + fileName;  //konkateniramo ime skladista zbog nalazenja korektnog fajla
 
         if (!DriveFileChecker.getDFC().ckeckStoragePath(fileName)) {
             throw new PathException("File doesn't exist!");
@@ -38,7 +38,7 @@ public class DriveDelete extends Delete {
     @Override
     public void deleteAll(String rootPath) throws Exception {
         File root = GoogleDrive.getRootFile(rootPath);
-        String query = "parents=" + "'" + root.getId() + "'";
+        String query = "parents=" + "'" + root.getId() + "'";  //pomocu query-ja dobicemo svu decu koja se nalaze u skladistu na dubini 0
         FileList list = GoogleDrive.service.files().list().setQ(query).setFields("nextPageToken, files(id, name, createdTime, mimeType, modifiedTime, parents, fileExtension)").execute();
 
         for (File file: list.getFiles()) {

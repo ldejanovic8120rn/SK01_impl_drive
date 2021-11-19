@@ -96,11 +96,11 @@ public class GoogleDrive {
     /**
      * By - Doktor Prof. Lazar Dejanovic
      * */
-    public static File getFile(String path) {
+    public static File getFile(String path) {  //npr path: MyStorage/Folder1/Folder2/Folder3 - dolazimo do Foldera3 od korena
         String[] files = path.split("/");
-        File root = GoogleDrive.getRootFile(files[0]);
+        File root = GoogleDrive.getRootFile(files[0]);  //MyStorage
 
-        for (int i = 1; i < files.length; i++) {
+        for (int i = 1; i < files.length; i++) {  //prolazimo prvo za Folder1, pa Folder2...
             String query = "name='" + files[i] + "'";
             FileList list = null;
             try {
@@ -115,7 +115,7 @@ public class GoogleDrive {
             }
 
             File child = null;
-            for (File file: list.getFiles()) {
+            for (File file: list.getFiles()) {  //nalazimo dete npr. Folder1, tako sto poredimo id parent-a
                 if (file.getParents().get(0).equals(root.getId())) {
                     child = file;
                     break;

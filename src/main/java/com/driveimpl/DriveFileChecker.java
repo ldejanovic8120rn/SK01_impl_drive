@@ -69,7 +69,7 @@ public class DriveFileChecker extends FileChecker {
 
         for (File file: list.getFiles()) {
             if (file.getMimeType().equals("application/vnd.google-apps.folder")) {
-                counter = countFiles(name + "/" + file.getName(), counter);
+                counter = countFiles(name + "/" + file.getName(), counter);  //ako je folder vrati broj svih fajlova rekurzivno za prosledjeni counter
             }
             else {
                 counter++;
